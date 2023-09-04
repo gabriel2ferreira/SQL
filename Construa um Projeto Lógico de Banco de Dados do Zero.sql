@@ -1,11 +1,11 @@
--- Criação da tabela Cliente
+-- Tabela Cliente
 CREATE TABLE Cliente (
     ClienteID INT PRIMARY KEY,
     Nome VARCHAR(255) NOT NULL,
     Telefone VARCHAR(15)
 );
 
--- Criação da tabela Veículo
+--  tabela Veículo
 CREATE TABLE Veiculo (
     VeiculoID INT PRIMARY KEY,
     ClienteID INT,
@@ -15,7 +15,7 @@ CREATE TABLE Veiculo (
     FOREIGN KEY (ClienteID) REFERENCES Cliente(ClienteID)
 );
 
--- Criação da tabela Ordem de Serviço
+--  tabela Ordem de Serviço
 CREATE TABLE OrdemServico (
     OrdemServicoID INT PRIMARY KEY,
     VeiculoID INT,
@@ -24,34 +24,34 @@ CREATE TABLE OrdemServico (
     FOREIGN KEY (VeiculoID) REFERENCES Veiculo(VeiculoID)
 );
 
--- Criação da tabela Serviço
+--  tabela Serviço
 CREATE TABLE Servico (
     ServicoID INT PRIMARY KEY,
     Descricao VARCHAR(255),
     Preco DECIMAL(10, 2)
 );
 
--- Criação da tabela Mecânico
+--  tabela Mecânico
 CREATE TABLE Mecanico (
     MecanicoID INT PRIMARY KEY,
     Nome VARCHAR(255) NOT NULL,
     Especialidade VARCHAR(50)
 );
 
--- Criação da tabela Peça de Reposição
+--  tabela Peça de Reposição
 CREATE TABLE PecaReposicao (
     PecaID INT PRIMARY KEY,
     Nome VARCHAR(255) NOT NULL,
     Preco DECIMAL(10, 2)
 );
 
--- Criação da tabela Fornecedor
+--  tabela Fornecedor
 CREATE TABLE Fornecedor (
     FornecedorID INT PRIMARY KEY,
     Nome VARCHAR(255) NOT NULL
 );
 
--- Criação da tabela OrdemServicoServico para associar serviços a ordens de serviço
+--  tabela OrdemServicoServico para associar serviços a ordens de serviço
 CREATE TABLE OrdemServicoServico (
     OrdemServicoID INT,
     ServicoID INT,
@@ -59,7 +59,7 @@ CREATE TABLE OrdemServicoServico (
     FOREIGN KEY (ServicoID) REFERENCES Servico(ServicoID)
 );
 
--- Criação da tabela OrdemServicoPeca para associar peças de reposição a ordens de serviço
+--  tabela OrdemServicoPeca para associar peças de reposição a ordens de serviço
 CREATE TABLE OrdemServicoPeca (
     OrdemServicoID INT,
     PecaID INT,
@@ -67,7 +67,7 @@ CREATE TABLE OrdemServicoPeca (
     FOREIGN KEY (PecaID) REFERENCES PecaReposicao(PecaID)
 );
 
--- Criação da tabela PecaReposicaoFornecedor para associar peças de reposição a fornecedores
+--  tabela PecaReposicaoFornecedor para associar peças de reposição a fornecedores
 CREATE TABLE PecaReposicaoFornecedor (
     PecaID INT,
     FornecedorID INT,
