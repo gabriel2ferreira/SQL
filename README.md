@@ -36,42 +36,43 @@ Aqui estão algumas consultas SQL de exemplo que podem ser executadas neste banc
 
    ```sql
    SELECT Nome, Telefone FROM Cliente WHERE ClienteID = 1;
-Consulta para listar as Ordens de Serviço por Cliente:
+2. Consulta para listar as Ordens de Serviço por Cliente:
 
-sql
+    ```sql
+    SELECT Cliente.Nome, OrdemServico.OrdemServicoID, Veiculo.Marca, Veiculo.Modelo
+    FROM Cliente
+    JOIN Veiculo ON Cliente.ClienteID = Veiculo.ClienteID
+    JOIN OrdemServico ON Veiculo.VeiculoID = OrdemServico.VeiculoID;
+3. Consulta para calcular o valor total de uma Ordem de Serviço:
 
-SELECT Cliente.Nome, OrdemServico.OrdemServicoID, Veiculo.Marca, Veiculo.Modelo
-FROM Cliente
-JOIN Veiculo ON Cliente.ClienteID = Veiculo.ClienteID
-JOIN OrdemServico ON Veiculo.VeiculoID = OrdemServico.VeiculoID;
-Consulta para calcular o valor total de uma Ordem de Serviço:
+    ```sql
 
-sql
+    SELECT OrdemServico.OrdemServicoID, SUM(Servico.Preco) AS TotalServicos, SUM(Peca.Preco) AS TotalPecas
+    FROM OrdemServico
+    LEFT JOIN OrdemServicoServico ON OrdemServico.OrdemServicoID = OrdemServicoServico.OrdemServicoID
+    LEFT JOIN Servico ON OrdemServicoServico.ServicoID = Servico.ServicoID
+    LEFT JOIN OrdemServicoPeca ON OrdemServico.OrdemServicoID = OrdemServicoPeca.OrdemServicoID
+    LEFT JOIN Peca ON OrdemServicoPeca.PecaID = Peca.PecaID
+    GROUP BY OrdemServico.OrdemServicoID;
+4. Consulta para listar os Mecânicos e a quantidade de Ordens de Serviço que cada um realizou:
 
-SELECT OrdemServico.OrdemServicoID, SUM(Servico.Preco) AS TotalServicos, SUM(Peca.Preco) AS TotalPecas
-FROM OrdemServico
-LEFT JOIN OrdemServicoServico ON OrdemServico.OrdemServicoID = OrdemServicoServico.OrdemServicoID
-LEFT JOIN Servico ON OrdemServicoServico.ServicoID = Servico.ServicoID
-LEFT JOIN OrdemServicoPeca ON OrdemServico.OrdemServicoID = OrdemServicoPeca.OrdemServicoID
-LEFT JOIN Peca ON OrdemServicoPeca.PecaID = Peca.PecaID
-GROUP BY OrdemServico.OrdemServicoID;
-Consulta para listar os Mecânicos e a quantidade de Ordens de Serviço que cada um realizou:
+    ```sql
 
-sql
+    SELECT Mecanico.Nome, COUNT(OrdemServico.OrdemServicoID) AS QuantidadeOrdens
+    FROM Mecanico
+    LEFT JOIN OrdemServico ON Mecanico.MecanicoID = OrdemServico.MecanicoID
+    GROUP BY Mecanico.Nome;
+5. Consulta para encontrar os Fornecedores que fornecem uma Peça de Reposição específica:
 
-SELECT Mecanico.Nome, COUNT(OrdemServico.OrdemServicoID) AS QuantidadeOrdens
-FROM Mecanico
-LEFT JOIN OrdemServico ON Mecanico.MecanicoID = OrdemServico.MecanicoID
-GROUP BY Mecanico.Nome;
-Consulta para encontrar os Fornecedores que fornecem uma Peça de Reposição específica:
+    ```sql
 
-sql
+    SELECT Fornecedor.Nome, Peca.Nome
+    FROM Fornecedor
+    JOIN PecaFornecedor ON Fornecedor.FornecedorID = PecaFornecedor.FornecedorID
+    JOIN Peca ON PecaFornecedor.PecaID = Peca.PecaID
+    WHERE Peca.PecaID = 1;
 
-SELECT Fornecedor.Nome, Peca.Nome
-FROM Fornecedor
-JOIN PecaFornecedor ON Fornecedor.FornecedorID = PecaFornecedor.FornecedorID
-JOIN Peca ON PecaFornecedor.PecaID = Peca.PecaID
-WHERE Peca.PecaID = 1;
+
 Como Usar
 Para utilizar este banco de dados em seu projeto, siga estas etapas:
 
